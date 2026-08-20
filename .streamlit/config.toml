@@ -1,0 +1,14 @@
+[theme]
+# Warna kuning peringatan/konstruksi
+primaryColor = "#F9A826" 
+
+# Background gelap ala command center
+backgroundColor = "#121212" 
+
+# Background sekunder (untuk sidebar)
+secondaryBackgroundColor = "#1E1E1E" 
+
+# Warna teks terang
+textColor = "#E0E0E0" 
+
+font = "sans serif"
