@@ -1,75 +1,22 @@
-# Smart Road Crack Inspection System
+# Smart Road Crack Inspection System 🛣️🔍
 
-Aplikasi web untuk inspeksi retakan jalan menggunakan semantic segmentation.
-Studi kasus Advance Class — National AI & Deep Learning Acceleration Bootcamp.
+An end-to-end Computer Vision solution developed to automate road condition monitoring and prioritize infrastructure repairs. This project was developed as a Capstone Study Case for the Advance Class of the National AI & Deep Learning Acceleration Bootcamp.
 
-## Struktur Proyek
+### 📌 Business Problem
+Manual road inspections require significant time and personnel, often resulting in inconsistent damage documentation due to subjective human assessments. Local governments need a reliable, automated system to monitor road conditions effectively.
 
-```
-smart_road_crack_inspection/
-├── app.py              # Entry point Streamlit (UI + navigasi + dashboard)
-├── model.py            # Load model & inference (SAAT INI: dummy/placeholder)
-├── utils.py            # Perhitungan metrik retakan + rule-based condition
-├── requirements.txt    # Dependensi Python
-├── data/
-│   └── inspection_log.csv   # Riwayat hasil inspeksi (auto-terisi saat dipakai)
-└── README.md
-```
+### 🛠️ Methodology & Solution
+*   **Deep Learning Architecture:** Developed a custom **U-Net** architecture from scratch using TensorFlow/Keras to perform pixel-level semantic segmentation of road cracks.
+*   **Training & Loss Function:** Trained on the Kaggle Crack Segmentation Dataset. To handle the extreme class imbalance (mostly background pixels), a custom **Dice Loss** function was implemented to heavily penalize false negatives on thin crack structures.
+*   **Data Augmentation:** Utilized `albumentations` for dynamic image transformations (Horizontal Flip and Rotation) to ensure model robustness under varying camera angles.
+*   **Damage Analytics:** Extracted key characteristics from the generated binary segmentation masks using OpenCV, including crack area, crack ratio, crack length, and crack density, to formulate objective road condition indicators.
+*   **Interactive Dashboard:** Built a comprehensive Streamlit web dashboard to summarize inspection counts, visualize road condition distributions, and track trends.
 
-## Cara Menjalankan Lokal
+### 🚀 Performance
+*   Achieved a validation Dice Coefficient score of **~0.73** (Dice Loss of 0.26) on the test split, successfully detecting both thick and fine-line road cracks.
 
-```bash
-pip install -r requirements.txt
-streamlit run app.py
-```
-
-Aplikasi akan terbuka di `http://localhost:8501`, dengan dua halaman:
-- **Aplikasi Deteksi** — upload foto jalan, lihat hasil segmentasi & metrik.
-- **Dashboard Analitik** — rekap agregat seluruh hasil inspeksi.
-
-## Status Integrasi Tim
-
-| Bagian | Status | File terkait |
-|---|---|---|
-| Model AI (segmentasi retakan) | 🟡 Placeholder dummy — menunggu model U-Net asli | `model.py` |
-| Web/Frontend & Dashboard | 🟢 Kerangka awal selesai | `app.py` |
-| Backend/Inference pipeline & rule-based decision | 🟡 Kerangka awal (rule threshold sementara) | `utils.py` |
-
-### Cara Integrasi Model Asli (untuk AI/CV Engineer & Backend Engineer)
-
-Cukup ganti isi dua fungsi di `model.py` **tanpa mengubah nama/parameter fungsinya**:
-
-```python
-def load_model():
-    # ganti dengan: tf.keras.models.load_model("unet_crack.h5")
-    ...
-
-def predict_crack_mask(model, image: np.ndarray) -> np.ndarray:
-    # ganti dengan preprocessing + model.predict() + threshold
-    # WAJIB mengembalikan binary mask (H, W) dengan nilai 0/1
-    ...
-```
-
-Selama signature-nya sama, `app.py` dan `utils.py` tidak perlu disentuh sama sekali.
-
-### Menyesuaikan Rule-based Condition
-
-Threshold kondisi jalan (`Baik` / `Sedang` / `Rusak`) ada di `utils.py`
-fungsi `determine_condition()`. Sesuaikan berdasarkan hasil analisis
-distribusi crack ratio di notebook.
-
-## Rencana Deployment
-
-Mengikuti alur Modul 12 (Streamlit Community Cloud):
-1. Push seluruh folder ini ke repository GitHub kelompok.
-2. Connect repo ke Streamlit Community Cloud, arahkan ke `app.py`.
-3. Setiap `git push` ke branch utama akan otomatis re-deploy.
-
-## Catatan
-
-- Model saat ini di `model.py` masih **dummy** (menghasilkan pola noise
-  acak sebagai simulasi mask, bukan hasil AI sungguhan) — hanya untuk
-  menguji alur UI selagi model asli masih dilatih.
-- Metrik crack density & crack length adalah salah satu pendekatan
-  perhitungan yang wajar sesuai arahan studi kasus; boleh disesuaikan
-  dan dijustifikasi ulang di Jupyter Notebook.
+### 📂 Deliverables & Repository Structure
+*   `notebooks/`: Contains the Jupyter Notebook detailing the AI pipeline, custom Dice Loss formulation, U-Net architecture, and training history.
+*   `app.py`: The main Streamlit entry point featuring a Gemini-inspired UI layout for uploading images and viewing the Analytics Dashboard.
+*   `model.py`: Handles model loading, image preprocessing (resizing to `448x448`), neural network inference, and mask thresholding.
+*   `utils.py`: Contains computer vision algorithms to compute structural damage metrics and rule-based logic to categorize road conditions.
