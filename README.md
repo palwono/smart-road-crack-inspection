@@ -6,17 +6,13 @@ An end-to-end Computer Vision solution developed to automate road condition moni
 Manual road inspections require significant time and personnel, often resulting in inconsistent damage documentation due to subjective human assessments. Local governments need a reliable, automated system to monitor road conditions effectively.
 
 ### 🛠️ Methodology & Solution
-*   **Deep Learning Architecture:** Developed a custom **U-Net** architecture from scratch using TensorFlow/Keras to perform pixel-level semantic segmentation of road cracks.
-*   **Training & Loss Function:** Trained on the Kaggle Crack Segmentation Dataset. To handle the extreme class imbalance (mostly background pixels), a custom **Dice Loss** function was implemented to heavily penalize false negatives on thin crack structures.
-*   **Data Augmentation:** Utilized `albumentations` for dynamic image transformations (Horizontal Flip and Rotation) to ensure model robustness under varying camera angles.
-*   **Damage Analytics:** Extracted key characteristics from the generated binary segmentation masks using OpenCV, including crack area, crack ratio, crack length, and crack density, to formulate objective road condition indicators.
-*   **Interactive Dashboard:** Built a comprehensive Streamlit web dashboard to summarize inspection counts, visualize road condition distributions, and track trends.
+*   **Hybrid Deep Learning Architecture:** Deployed a **Mobile-UNet** model (MobileNetV2 as the feature encoder coupled with a custom U-Net decoder) via TensorFlow/Keras for lightweight and highly efficient pixel-level semantic segmentation[cite: 19].
+*   **Advanced Damage Analytics:** Extracted comprehensive structural characteristics from the generated binary masks, including crack area, ratio, length, density, **number of crack segments**, and **maximum crack width**[cite: 20].
+*   **Automated Severity Scoring:** Formulated an objective 0-100 **Severity Score** rule-based indicator to automatically categorize road conditions into "Baik", "Sedang", or "Rusak"[cite: 20].
+*   **Interactive Dashboard:** Built a Streamlit web application featuring a centralized diagnostic UI, live severity progress bars, and an analytics dashboard to track inspection histories[cite: 20].
 
-### 🚀 Performance
-*   Achieved a validation Dice Coefficient score of **~0.73** (Dice Loss of 0.26) on the test split, successfully detecting both thick and fine-line road cracks.
-
-### 📂 Deliverables & Repository Structure
-*   `notebooks/`: Contains the Jupyter Notebook detailing the AI pipeline, custom Dice Loss formulation, U-Net architecture, and training history.
-*   `app.py`: The main Streamlit entry point featuring a Gemini-inspired UI layout for uploading images and viewing the Analytics Dashboard.
-*   `model.py`: Handles model loading, image preprocessing (resizing to `448x448`), neural network inference, and mask thresholding.
-*   `utils.py`: Contains computer vision algorithms to compute structural damage metrics and rule-based logic to categorize road conditions.
+### 📂 Repository Structure
+*   `app.py`: The Streamlit main entry point featuring the AI diagnostic module and analytics dashboard[cite: 20].
+*   `model.py`: Handles loading the `.keras` Mobile-UNet model, image preprocessing (resizing to `448x448`), neural network inference, and mask thresholding[cite: 19].
+*   `utils.py`: Contains the core computer vision algorithms to compute advanced damage metrics and the rule-based decision logic.
+*   `models/mobile_unet_final.keras`: The finalized weights of the semantic segmentation model[cite: 19].
