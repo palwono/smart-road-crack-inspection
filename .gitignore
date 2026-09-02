@@ -1,10 +1,27 @@
+# Python
 __pycache__/
-*.pyc
-.venv/
+*.py[cod]
+*.egg-info/
+
+# Virtual environment
 venv/
-.env
-.streamlit/secrets.toml
+env/
+.venv/
+
+# Format model lama — sumber masalah kemarin, jangan pernah ke-commit lagi
 *.h5
-*.pt
-*.pth
+*.weights.h5
+
+# Data hasil runtime (auto-terisi saat aplikasi dipakai, jangan ikut di-commit)
+data/inspection_log.csv
+data/images/
+data/masks/
+*.tmp
+
+# OS / editor
 .DS_Store
+.idea/
+.vscode/
+
+# Kalau nanti pakai secrets Streamlit
+.streamlit/secrets.toml
